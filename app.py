@@ -260,7 +260,7 @@ st.markdown(
 | **ν und `t · Fehler` sind Eigenschaften des Problems** | Sie gehören zur Formulierung: dieselbe Kugel hat als Lorentz-Kegel ν = 40 und `t · Fehler → 2`, als Potenzkegel ν = 140 und `→ 6` (Experiment 1). | – |
 | **Der glatte Würfel braucht ein großes β, damit er dem Würfel gleicht** | Auf dieser Wolke genügt β = 10 (Abstand unter 10⁻⁷); die Schranke `log(2d)/β` sagt 0,14 und ist hier um Größenordnungen zu grob. Ein Messbefund dieser Wolken, kein Satz. | – |
 | **Die Schranke `ν/t` gilt an jedem Pfadende** | Nur für zentrierte Punkte. Bei großem `t` endet die Zentrierung an der Rundungsgrenze (je nach Prozessor bei einzelnen β oder p); die Tabellen melden „zentriert: nein“, der Radius stimmt trotzdem. | – |
-| **Eine absolute Genauigkeit passt zu jedem Maßstab** | Nein: bei 1000-fach größeren Daten erreicht `ν/t ≤ 10⁻⁹` die Rundungsgrenze (Experiment 5); die Demo rechnet mit relativer Genauigkeit. | – |
+| **Eine absolute Genauigkeit passt zu jedem Maßstab** | Nein: bei 10⁶-fach größeren Daten erreicht `ν/t ≤ 10⁻⁹` sicher die Rundungsgrenze, bei 1000-fach je nach Prozessor (Experiment 5); die Demo rechnet mit relativer Genauigkeit. | – |
 | **Die Beispiele stehen für Anwendungen** | Nur die beiden Kugel-Familien sind gerechnet; logistische Regression, Entropie-Maximierung und geometrische Programme (die Standardanwendungen) sind nicht gebaut. | – |
 | **Iterationen sind Zeit** | Ein Newton-Schritt löst ein dichtes System der Größe der Variablen; die Demo zählt Schritte, keine Sekunden. | – |
 """

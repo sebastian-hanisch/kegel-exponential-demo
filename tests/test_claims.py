@@ -111,13 +111,13 @@ def test_the_step_factor_has_its_minimum_at_a_moderate_mu():
 
 
 def test_the_data_scale_with_relative_and_absolute_accuracy():
-    """README: relative Genauigkeit 42 bis 46 Newton-Schritte bei Maßstab 10⁻⁶ bis 10⁶, stets zentriert; absolute Genauigkeit 10⁻⁹: bei 10³ und 10⁶ nicht zentriert (halbes Dekrement-Quadrat 10⁻³ bzw. 10⁴ und mehr)."""
+    """README: relative Genauigkeit 42 bis 46 Newton-Schritte bei Maßstab 10⁻⁶ bis 10⁶, stets zentriert; absolute Genauigkeit 10⁻⁹: bei 10⁶ nicht zentriert (halbes Dekrement-Quadrat über 10²), bei 10³ je nach Prozessor (Entwicklungsrechner 1,2·10⁻³: nicht zentriert, GitHub-Runner: noch zentriert)."""
     rows = ev.scale_rows(ev.Settings())
     assert [r["factor"] for r in rows] == list(C.SCALE_FACTORS)
     assert all(r["rel_centered"] and 38 <= r["rel_newton"] <= 50 for r in rows)
     assert all(r["radius"] == pytest.approx(f * rows[1]["radius"], rel=1e-6) for r, f in zip(rows, C.SCALE_FACTORS))
-    assert rows[0]["abs_centered"] and rows[1]["abs_centered"] and not rows[2]["abs_centered"] and not rows[3]["abs_centered"]
-    assert rows[2]["abs_lam2"] > 1e-5 and rows[3]["abs_lam2"] > 1e2
+    assert rows[0]["abs_centered"] and rows[1]["abs_centered"] and not rows[3]["abs_centered"]                 # bei 10³ ist es CPU-abhängig (Entwicklungsrechner: nicht zentriert, GitHub-Runner: noch zentriert)
+    assert rows[3]["abs_lam2"] > 1e2 and rows[3]["abs_newton"] > 3 * rows[3]["rel_newton"]
 
 
 def test_extreme_parameters_do_not_break_the_method():
