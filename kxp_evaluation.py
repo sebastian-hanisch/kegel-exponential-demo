@@ -285,8 +285,10 @@ def verdict_lse(rows: list) -> tuple:
     first = rows[0]
     mid = next(r for r in rows if r["beta"] == 10.0)
     loose = [r for r in rows if not r["centered"]]
+    first_fit = (f"bei β = {beta_text(first['beta'])} um den Faktor {de(first['bound'] / first['above_cube'], 0)} zu grob und bei größerem β um Größenordnungen "
+                 if first["above_cube"] > 0 else "für größeres β um Größenordnungen zu grob ")
     return "info", (f"Die log-sum-exp-Kugel liegt für β = {beta_text(first['beta'])} um {de(first['above_cube'], 4)} über dem Würfelradius, für β = 10 {over_text(mid['above_cube'])} und für β = {beta_text(rows[-1]['beta'])} "
-                    f"{over_text(rows[-1]['above_cube'])}. Die Schranke `log(2d)/β` sagt {de(first['bound'], 2)}, {de(mid['bound'], 3)} und {de(rows[-1]['bound'], 4)}: auf dieser Wolke, mit zwei Stützpunkten, ist sie um Größenordnungen zu grob "
+                    f"{over_text(rows[-1]['above_cube'])}. Die Schranke `log(2d)/β` sagt {de(first['bound'], 2)}, {de(mid['bound'], 3)} und {de(rows[-1]['bound'], 4)}: auf dieser Wolke, mit zwei Stützpunkten, ist sie {first_fit}"
                     f"(Messbefund, kein Satz). Newton-Schritte {min(r['newton'] for r in rows)} bis {max(r['newton'] for r in rows)}."
                     + (f" Nicht zentriert am Ende (Rundungsgrenze, CPU-abhängig): β = {', '.join(beta_text(r['beta']) for r in loose)}." if loose else ""))
 

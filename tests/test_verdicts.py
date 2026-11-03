@@ -79,7 +79,7 @@ def _lse_rows(loose=()):
 def test_lse_verdict_compares_the_distance_with_the_bound():
     kind, text = ev.verdict_lse(_lse_rows())
     assert kind == "info"
-    for part in ("für β = 0,5 um 0,7185 über dem Würfelradius", "für β = 10 weniger als 1·10⁻⁷ und für β = 1000 weniger als 1·10⁻⁷", "sagt 2,77, 0,139 und 0,0014", "um Größenordnungen zu grob", "Newton-Schritte 46 bis 51"):
+    for part in ("für β = 0,5 um 0,7185 über dem Würfelradius", "für β = 10 weniger als 1·10⁻⁷ und für β = 1000 weniger als 1·10⁻⁷", "sagt 2,77, 0,139 und 0,0014", "bei β = 0,5 um den Faktor 4 zu grob und bei größerem β um Größenordnungen", "Newton-Schritte 46 bis 51"):
         assert part in text, part
     assert "β = 10." in ev.verdict_lse(_lse_rows(loose=(10.0,)))[1] and "Nicht zentriert am Ende" in ev.verdict_lse(_lse_rows(loose=(10.0,)))[1]
 

@@ -112,7 +112,7 @@ with st.container(key="kopf"):
 st.markdown(
     """
 **Die Barrierenmethode aus Stück 5 überträgt sich auf zwei neue Kegel, die NT-Skalierung aus Stück 6 nicht.** Der **Exponentialkegel** `y e^(x/y) ≤ z` und der **Potenzkegel** `u^a v^(1−a) ≥ |w|` haben je drei Koordinaten und eine
-Barriere mit ν = 3, und die Barrierenmethode läuft unverändert. Sie sind aber **nicht symmetrisch**: ihre Automorphismengruppe ist zu klein, ihr Dualkegel ist ein anderer Kegel, und für das Beispiel der Reihe,
+Barriere mit ν = 3, und die Barrierenmethode läuft im Prinzip unverändert (eigene Implementierung `kxp_barrier.py`). Sie sind aber **nicht symmetrisch**: ihre Automorphismengruppe ist zu klein, ihr Dualkegel ist ein anderer Kegel, und für das Beispiel der Reihe,
 die kleinste umschließende Kugel einer Punktwolke, geben sie zwei Familien: die **ℓp-Kugeln** (Potenzkegel, zwischen Raute, Kugel und Würfel aus Stück 2) und die **log-sum-exp-Kugel** (Exponentialkegel, ein glatter Würfel).
 Stück 7 der Reihe „Konvexe und konische Optimierung“.
 
@@ -258,7 +258,7 @@ st.markdown(
 |---|---|---|
 | **Die NT-Skalierung aus Stück 6 überträgt sich auf jeden Kegel** | Nein: Exponentialkegel und Potenzkegel (a ≠ 1/2) haben nur eine zweidimensionale Automorphismengruppe, ein dreidimensionaler Kegel braucht mindestens 3 (Experiment 4). Das nichtsymmetrische Primal-Dual (Skajaa–Ye, Clarabel) ist hier nicht gebaut. | – |
 | **ν und `t · Fehler` sind Eigenschaften des Problems** | Sie gehören zur Formulierung: dieselbe Kugel hat als Lorentz-Kegel ν = 40 und `t · Fehler → 2`, als Potenzkegel ν = 140 und `→ 6` (Experiment 1). | – |
-| **Der glatte Würfel braucht ein großes β, damit er dem Würfel gleicht** | Auf dieser Wolke genügt β = 10 (Abstand unter 10⁻⁷); die Schranke `log(2d)/β` sagt 0,14 und ist hier um Größenordnungen zu grob. Ein Messbefund dieser Wolken, kein Satz. | – |
+| **Der glatte Würfel braucht ein großes β, damit er dem Würfel gleicht** | Auf dieser Wolke genügt β = 10 (Abstand unter 10⁻⁷); die Schranke `log(2d)/β` sagt 0,14 und ist hier ab β = 2 um zwei und mehr Größenordnungen zu grob (bei β = 0,5 nur um den Faktor 4). Ein Messbefund dieser Wolken, kein Satz. | – |
 | **Die Schranke `ν/t` gilt an jedem Pfadende** | Nur für zentrierte Punkte. Bei großem `t` endet die Zentrierung an der Rundungsgrenze (je nach Prozessor bei einzelnen β oder p); die Tabellen melden „zentriert: nein“, der Radius stimmt trotzdem. | – |
 | **Eine absolute Genauigkeit passt zu jedem Maßstab** | Nein: bei 10⁶-fach größeren Daten erreicht `ν/t ≤ 10⁻⁹` sicher die Rundungsgrenze, bei 1000-fach je nach Prozessor (Experiment 5); die Demo rechnet mit relativer Genauigkeit. | – |
 | **Die Beispiele stehen für Anwendungen** | Nur die beiden Kugel-Familien sind gerechnet; logistische Regression, Entropie-Maximierung und geometrische Programme (die Standardanwendungen) sind nicht gebaut. | – |
