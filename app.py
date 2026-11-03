@@ -241,6 +241,8 @@ mrows = _mu(settings)
 st.plotly_chart(build_nu(nrows, mrows), width="stretch", key="nu_chart")
 st.dataframe(pd.DataFrame([{"Punkte": r["n"], "ν (ℓ3)": r["lp"]["nu"], "Newton (ℓ3)": r["lp"]["newton"], "ν (log-sum-exp)": r["lse"]["nu"], "Newton (log-sum-exp)": r["lse"]["newton"], "Runden": r["lp"]["rounds"]} for r in nrows]),
              hide_index=True, width="stretch")
+st.dataframe(pd.DataFrame([{"Schrittfaktor μ": de(r["mu"], 0), "Newton-Schritte": r["newton"], "Runden": r["rounds"], "zentriert": "ja" if r["centered"] else "nein (Rundungsgrenze)"} for r in mrows]),
+             hide_index=True, width="stretch")
 verdict(verdict_nu(nrows, mrows))
 srows = _scale(settings)
 st.dataframe(pd.DataFrame([{"Datenmaßstab": sci(r["factor"], 0), "Radius": num(r["radius"], 6), "relativ: Newton": r["rel_newton"], "relativ: zentriert": "ja" if r["rel_centered"] else "nein",

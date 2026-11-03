@@ -118,3 +118,14 @@ def test_scale_verdict_contrasts_relative_and_absolute_accuracy():
 
 def test_family_names_and_cone_names_are_complete():
     assert set(F.FAMILY_NAMES) == set(F.CONE_NAMES) == set(F.FAMILIES)
+
+
+def test_nu_verdict_flags_a_step_factor_whose_run_ends_uncentered():
+    rows = [{"n": 4, "lp": {"nu": 28, "newton": 35.0, "rounds": 12.0}, "lse": {"nu": 52, "newton": 46.0, "rounds": 12.0}},
+            {"n": 40, "lp": {"nu": 280, "newton": 40.0, "rounds": 12.0}, "lse": {"nu": 520, "newton": 59.0, "rounds": 12.0}}]
+    mu = [{"mu": 2.0, "newton": 68, "centered": True}, {"mu": 32.0, "newton": 33, "centered": True}, {"mu": 1000.0, "newton": 93, "centered": False}]
+    text = ev.verdict_nu(rows, mu)[1]
+    assert "bei μ = 1000 93 (nicht zentriert)" in text and "**Nicht zentriert** enden μ = 1000 (93 Schritte)" in text and "nicht vergleichbar" in text
+    assert "bei μ = 2 68," in text and "nicht zentriert)" not in text.split("bei μ = 2")[1].split(",")[0]
+    mu[-1]["centered"] = True
+    assert "icht zentriert" not in ev.verdict_nu(rows, mu)[1]

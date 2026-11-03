@@ -308,14 +308,25 @@ def _range(lo, hi, unit: str = "") -> str:
     return f"{lo}{unit}" if lo == hi else f"{lo} bis {hi}{unit}"
 
 
+def _mu_steps(row: dict) -> str:
+    """Die Schrittzahl eines μ-Laufs; ein Lauf ohne zentriertes Ende trägt den Zusatz."""
+    return f"{row['newton']}" if row.get("centered", True) else f"{row['newton']} (nicht zentriert)"
+
+
 def verdict_nu(rows: list, mu: list) -> tuple:
     a, b = rows[0], rows[-1]
     lp_n = [r["lp"]["newton"] for r in rows]
     lse_n = [r["lse"]["newton"] for r in rows]
     best = min(mu, key=lambda r: r["newton"])
+    loose = [r for r in mu if not r.get("centered", True)]
+    note = ""
+    if loose:
+        names = ", ".join(f"μ = {de(r['mu'], 0)} ({r['newton']} Schritte)" for r in loose)
+        note = (f" **Nicht zentriert** enden {names}: die letzte Zentrierung erreichte ihre Toleranz nicht (Rundungsgrenze), diese Schrittzahl ist die eines Laufs ohne zentriertes Ende und "
+                "mit den zentrierten nicht vergleichbar.")
     return "info", (f"Von n = {a['n']} bis n = {b['n']} Punkten wächst ν der ℓp-Kugel von {a['lp']['nu']} auf {b['lp']['nu']}, der log-sum-exp-Kugel von {a['lse']['nu']} auf {b['lse']['nu']}; die Newton-Schritte bleiben bei "
                     f"{int(min(lp_n))} bis {int(max(lp_n))} (ℓp) und {int(min(lse_n))} bis {int(max(lse_n))} (log-sum-exp), je {_range(min(r[f]['rounds'] for r in rows for f in ('lp', 'lse')), max(r[f]['rounds'] for r in rows for f in ('lp', 'lse')), ' Runden')} (Median über feste Wolken). Der Schrittfaktor μ: am wenigsten Newton-Schritte bei μ = {de(best['mu'], 0)} "
-                    f"({best['newton']}), bei μ = {de(mu[0]['mu'], 0)} {mu[0]['newton']}, bei μ = {de(mu[-1]['mu'], 0)} {mu[-1]['newton']}.")
+                    f"({best['newton']}), bei μ = {de(mu[0]['mu'], 0)} {_mu_steps(mu[0])}, bei μ = {de(mu[-1]['mu'], 0)} {_mu_steps(mu[-1])}.{note}")
 
 
 def verdict_scale(rows: list) -> tuple:

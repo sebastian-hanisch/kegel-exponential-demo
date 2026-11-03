@@ -70,3 +70,10 @@ def test_nu_chart_has_both_families_left_and_the_step_factor_right():
     mu = ev.mu_rows(ev.Settings(n=10), mus=(2.0, 8.0))
     fig = V.build_nu(rows, mu)
     assert _locked(fig) and len(fig.data) == 3 and fig.layout.xaxis.type == "log" and list(fig.data[0].x) == [r["n"] for r in rows] and list(fig.data[0].customdata) == [r["lp"]["nu"] for r in rows] and list(fig.data[2].x) == [2.0, 8.0]
+
+
+def test_nu_chart_marks_a_step_factor_that_ends_uncentered():
+    rows = ev.nu_rows(ns=(4, 6), seeds=(100000,))
+    mu = [{"mu": 2.0, "newton": 68, "centered": True}, {"mu": 1000.0, "newton": 93, "centered": False}]
+    fig = V.build_nu(rows, mu)
+    assert len(fig.data) == 4 and list(fig.data[3].x) == [1000.0] and list(fig.data[3].y) == [93] and "nicht zentriert" in fig.data[3].name

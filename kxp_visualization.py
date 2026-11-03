@@ -107,6 +107,10 @@ def build_nu(rows: list, mu: list) -> go.Figure:
         fig.add_trace(go.Scatter(x=[r["n"] for r in rows], y=[r[fam]["newton"] for r in rows], mode="lines+markers", name=name, line=dict(color=C.COLORS[fam], width=3),
                                  customdata=[r[fam]["nu"] for r in rows], hovertemplate="n = %{x}, ν = %{customdata}<br>Newton-Schritte %{y}<extra></extra>"), row=1, col=1)
     fig.add_trace(go.Scatter(x=[r["mu"] for r in mu], y=[r["newton"] for r in mu], mode="lines+markers", name="gewählte Form", line=dict(color=C.COLORS["soc"], width=3)), row=1, col=2)
+    loose = [r for r in mu if not r.get("centered", True)]
+    if loose:                                                                       # Läufe ohne zentriertes Ende (Rundungsgrenze): ihre Schrittzahl ist nicht die eines zentrierten Laufs
+        fig.add_trace(go.Scatter(x=[r["mu"] for r in loose], y=[r["newton"] for r in loose], mode="markers", name="nicht zentriert (Rundungsgrenze)",
+                                 marker=dict(color=C.COLOR_BAD, size=13, symbol="x", line=dict(width=2)), hovertemplate="μ = %{x}: %{y} Schritte, nicht zentriert<extra></extra>"), row=1, col=2)
     ns = [r["n"] for r in rows]
     mus = [r["mu"] for r in mu]
     fig.update_xaxes(title_text="Punkte n (ν = 7n bzw. 13n)", type="log", tickvals=ns, ticktext=[str(v) for v in ns], row=1, col=1)

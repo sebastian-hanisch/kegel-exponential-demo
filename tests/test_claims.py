@@ -143,3 +143,14 @@ def test_the_kernel_is_byte_identical_in_the_series():
     if not sibling.exists():
         pytest.skip("Schwester-Repo liegt nicht nebenan")
     assert hashlib.sha256(here.read_bytes()).hexdigest() == hashlib.sha256(sibling.read_bytes()).hexdigest()
+
+
+def test_the_step_factor_rows_carry_the_centering_flag_and_the_verdict_shows_it_whatever_the_cpu():
+    """Ob μ = 1000 zentriert endet, hängt von der CPU ab (Entwicklungsrechner: nein); festgeschrieben ist nur, dass das Flag in jeder Zeile steht und das Verdikt jede nicht zentrierte Zeile nennt."""
+    mu = ev.mu_rows(ev.Settings())
+    assert all(isinstance(r["centered"], bool) for r in mu)
+    text = ev.verdict_nu(ev.nu_rows(ns=(4, 6), seeds=(100000,)), mu)[1]
+    for r in mu:
+        if not r["centered"]:
+            assert f"μ = {ev.de(r['mu'], 0)} ({r['newton']} Schritte)" in text and "**Nicht zentriert**" in text
+    assert ("**Nicht zentriert**" in text) == any(not r["centered"] for r in mu)
